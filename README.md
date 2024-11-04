@@ -5,6 +5,11 @@
 i made this code to help anyone who wants to download or embed a video from a streamtape 
 without having to go through their stupid site.
 
+### Dependencies
+
+  - Java (Jsoup)
+  - Python (requests and beautifulsoup)
+
 ## JAVA CODE:
 
 ```java
