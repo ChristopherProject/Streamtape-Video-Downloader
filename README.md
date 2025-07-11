@@ -82,4 +82,30 @@ def steamtape_get_dl_link(link):
     return None
 ```
 
+## JAVASCRIPT CODE: ( Suggested by [Pigamer37](https://github.com/Pigamer37) )
+
+```js
+function GetStreamTapeLink(url) {
+  const reqURL = url.replace("/e/", "/v/")
+  return fetch(reqURL).then((resp) => {
+    if ((!resp.ok) || resp.status !== 200) throw Error(`HTTP error! Status: ${resp.status}`)
+    if (resp === undefined) throw Error('Undefined response!')
+    return resp.text()
+  }).then((data) => {
+    const noRobotLinkPattern = /document\.getElementById\('norobotlink'\)\.innerHTML = (.+?);/g
+    const matches = noRobotLinkPattern.exec(data)
+    if (matches[1]) {
+      const tokenPattern = /token=([^&']+)/g
+      const tokenMatches = tokenPattern.exec(matches[1])
+      if (tokenMatches[1]) { //You can use cheerio if you want for this
+        const STPattern = /id\s*=\s*"ideoooolink"/g
+        const tagEnd = data.indexOf(">", STPattern.exec(data).index) + 1
+        const streamtape = data.substring(tagEnd, data.indexOf("<", tagEnd))
+        return `https:/${streamtape}&token=${tokenMatches[1]}&dl=1s`
+      } else console.log("No token")
+    } else console.log("No norobotlink")
+  })
+}
+```
+
  ### hope this can help you too, dont forget to credit me 😉
